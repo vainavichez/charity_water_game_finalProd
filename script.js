@@ -32,6 +32,7 @@ const losingMessages = [
   "Keep practicing—you can catch more drops next time!",
   "Every drop counts. Try again!"
 ];
+const confettiColors = ["#ffc907", "#2e9df7", "#7a4eab", "#f16061", "#8bd1cb"];
 
 let score = 0;
 let timeLeft = gameLength;
@@ -46,6 +47,7 @@ startButton.addEventListener("click", startGame);
 function startGame() {
   if (gameRunning) return;
 
+  clearConfetti();
   score = 0;
   timeLeft = gameLength;
   lives = startingLives;
@@ -155,6 +157,45 @@ function endGame() {
   gameResult.textContent = `${outcome} ${pickRandom(messages)} Final score: ${score}.`;
   startButton.disabled = false;
   startButton.textContent = "Play Again";
+
+  if (won) {
+    celebrateWin();
+  }
+}
+
+function celebrateWin() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const confettiLayer = document.createElement("div");
+  const pieceCount = 60;
+  let finishedPieces = 0;
+
+  confettiLayer.className = "confetti-layer";
+  confettiLayer.setAttribute("aria-hidden", "true");
+
+  for (let index = 0; index < pieceCount; index += 1) {
+    const piece = document.createElement("span");
+    piece.className = "confetti-piece";
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.setProperty("--confetti-color", pickRandom(confettiColors));
+    piece.style.setProperty("--confetti-duration", `${2.5 + Math.random() * 1.5}s`);
+    piece.style.setProperty("--confetti-delay", `${Math.random() * 0.4}s`);
+    piece.style.setProperty("--confetti-drift", `${Math.random() * 160 - 80}px`);
+    piece.style.setProperty("--confetti-spin", `${Math.random() * 1080 - 540}deg`);
+    piece.addEventListener("animationend", () => {
+      finishedPieces += 1;
+      if (finishedPieces === pieceCount) {
+        confettiLayer.remove();
+      }
+    });
+    confettiLayer.appendChild(piece);
+  }
+
+  document.body.appendChild(confettiLayer);
+}
+
+function clearConfetti() {
+  document.querySelector(".confetti-layer")?.remove();
 }
 
 function announce(message) {

@@ -123,7 +123,8 @@ button {
 }
 
 .game-instructions p {
-    margin: 0;
+    max-width: 65ch;
+    margin: 0 auto;
 }
 
 #game-container {
@@ -180,26 +181,14 @@ button {
     transform: translateY(calc(-1 * var(--drop-size, 60px)));
     border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: 50%;
-    background: radial-gradient(circle at 32% 26%, #a9e1ff 0 8%, #2e9df7 33%, #0875c1 100%);
+    background: #2e9df7;
     box-shadow: 0 4px 10px rgba(24, 59, 86, 0.22);
     cursor: pointer;
     animation: drop-fall linear forwards;
 }
 
-.water-drop::after {
-    position: absolute;
-    top: 20%;
-    left: 23%;
-    width: 19%;
-    height: 32%;
-    transform: rotate(25deg);
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.72);
-    content: "";
-}
-
 .water-drop.bad-drop {
-    background: radial-gradient(circle at 32% 26%, #d8b7f5 0 8%, #9367c2 33%, #62408e 100%);
+    background: #9367c2;
 }
 
 .water-drop:hover {
@@ -235,6 +224,35 @@ button {
     color: var(--dark-blue);
     font-weight: 700;
     line-height: 1.4;
+}
+
+.confetti-layer {
+    position: fixed;
+    z-index: 10;
+    overflow: hidden;
+    pointer-events: none;
+    inset: 0;
+}
+
+.confetti-piece {
+    position: absolute;
+    top: -16px;
+    width: 10px;
+    height: 16px;
+    background: var(--confetti-color);
+    opacity: 0;
+    animation: confetti-fall var(--confetti-duration) var(--confetti-delay) ease-in forwards;
+}
+
+@keyframes confetti-fall {
+    from {
+        transform: translate3d(0, -10vh, 0) rotate(0);
+        opacity: 1;
+    }
+    to {
+        transform: translate3d(var(--confetti-drift), 110vh, 0) rotate(var(--confetti-spin));
+        opacity: 0;
+    }
 }
 
 #start-btn {
