@@ -3,20 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Drop Game</title>
+    <meta name="theme-color" content="#ffc907">
+    <title>Water Drop Game | charity: water</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="game-wrapper">
-        <h1 class="game-title">Water Drop</h1>
-        <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
-        <div class="score-panel">
-            <div class="score">Score: <span id="score">0</span></div>
-            <div class="timer">Time: <span id="time">30</span>s</div>
-            <button id="start-btn">Start Game</button>
-        </div>
-        
-        <div id="game-container">
+        <header class="game-header">
+            <img class="brand-logo" src="img/cw_logo-horizontal.png" alt="charity: water">
+            <h1 class="game-title">Water Drop</h1>
+            <p class="game-tagline">Catch clean water. Keep pollution out.</p>
+        </header>
+
+        <section class="game-card" aria-label="Water Drop game">
+            <div class="score-panel">
+                <div class="stat">
+                    <span class="stat-label">Score</span>
+                    <span class="stat-value" id="score" aria-live="polite">0</span>
+                </div>
+                <div class="stat timer">
+                    <span class="stat-label">Time left</span>
+                    <span class="stat-value"><span id="time" aria-live="off">30</span><span class="seconds">s</span></span>
+                </div>
+                <div class="stat lives">
+                    <span class="stat-label">Lives</span>
+                    <span class="stat-value" id="lives" aria-label="3 lives">♥ ♥ ♥</span>
+                </div>
+            </div>
+
+            <div class="game-instructions" id="instructions">
+                <p>Click blue drops for <strong>1 point</strong>. Avoid purple pollutants, and don't let clean water hit the ground!</p>
+            </div>
+
+            <div id="game-container" role="group" aria-label="Game area. Click blue water drops and avoid purple pollutant drops.">
+                <p class="game-message" id="game-message" aria-live="polite">Press “Start Game” when you're ready!</p>
+            </div>
+            <div class="game-footer">
+                <p class="game-result" id="game-result" aria-live="polite"></p>
+                <button id="start-btn" type="button">Start Game</button>
+            </div>
         </div>
     </div>
     
