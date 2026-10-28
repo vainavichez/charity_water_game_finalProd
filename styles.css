@@ -69,6 +69,37 @@ button {
     box-shadow: 0 12px 36px rgba(24, 59, 86, 0.12);
 }
 
+.difficulty-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    color: #36566b;
+    font-weight: 700;
+}
+
+#difficulty {
+    max-width: 100%;
+    min-height: 42px;
+    padding: 8px 32px 8px 10px;
+    border: 1px solid rgba(24, 59, 86, 0.28);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--dark-blue);
+    font: inherit;
+}
+
+#difficulty:focus-visible {
+    outline: 3px solid var(--brand-blue);
+    outline-offset: 3px;
+}
+
+#difficulty:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 .score-panel {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -299,6 +330,12 @@ button {
 
     .score-panel {
         gap: 7px;
+    }
+
+    .difficulty-control {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 6px;
     }
 
     .stat {

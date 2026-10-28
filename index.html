@@ -16,6 +16,14 @@
         </header>
 
         <section class="game-card" aria-label="Water Drop game">
+            <div class="difficulty-control">
+                <label for="difficulty">Difficulty</label>
+                <select id="difficulty">
+                    <option value="easy">Easy — 10 points, slower drops</option>
+                    <option value="normal" selected>Normal — 20 points</option>
+                    <option value="hard">Hard — 30 points, faster drops</option>
+                </select>
+            </div>
             <div class="score-panel">
                 <div class="stat">
                     <span class="stat-label">Score</span>
@@ -32,7 +40,7 @@
             </div>
 
             <div class="game-instructions" id="instructions">
-                <p>Click blue drops for <strong>1 point</strong>. Score 20 points to win the game.  Avoid purple pollutants, and don't let clean water hit the ground!</p>
+                <p>Click blue drops for <strong>1 point</strong>. Score <strong id="score-target">20 points</strong> to win the game. Avoid purple pollutants, and don't let clean water hit the ground!</p>
             </div>
 
             <div id="game-container" role="group" aria-label="Game area. Click blue water drops and avoid purple pollutant drops.">

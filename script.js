@@ -2,13 +2,19 @@ const gameContainer = document.getElementById("game-container");
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
 const livesDisplay = document.getElementById("lives");
+const difficultySelect = document.getElementById("difficulty");
+const scoreTargetDisplay = document.getElementById("score-target");
 const startButton = document.getElementById("start-btn");
 const gameMessage = document.getElementById("game-message");
 const gameResult = document.getElementById("game-result");
 
 const gameLength = 30;
-const winningScore = 20;
 const startingLives = 3;
+const difficulties = {
+  easy: { winningScore: 10, dropSpeed: 0.75 },
+  normal: { winningScore: 20, dropSpeed: 1 },
+  hard: { winningScore: 30, dropSpeed: 1.3 }
+};
 const goodDropMessages = [
   "Nice catch! Keep it up!",
   "Clean water saved!",
@@ -38,16 +44,21 @@ let score = 0;
 let timeLeft = gameLength;
 let lives = startingLives;
 let gameRunning = false;
+let activeDifficulty = difficultySelect.value;
 let dropMaker;
 let countdown;
 
 startButton.addEventListener("click", startGame);
+difficultySelect.addEventListener("change", updateInstructions);
+
+updateInstructions();
 
 // Reset the round, then start spawning drops and counting down.
 function startGame() {
   if (gameRunning) return;
 
   clearConfetti();
+  activeDifficulty = difficultySelect.value;
   score = 0;
   timeLeft = gameLength;
   lives = startingLives;
@@ -61,6 +72,7 @@ function startGame() {
   gameContainer.classList.add("is-running");
   startButton.disabled = true;
   startButton.textContent = "Game in progress";
+  difficultySelect.disabled = true;
 
   createDrop();
   dropMaker = setInterval(createDrop, 1050);
@@ -87,7 +99,8 @@ function createDrop() {
   drop.style.setProperty("--drop-size", `${size}px`);
   drop.style.left = `${Math.random() * Math.max(0, containerWidth - size)}px`;
   drop.style.setProperty("--fall-distance", `${containerHeight + size}px`);
-  drop.style.animationDuration = `${Math.max(2.5, containerHeight / 150)}s`;
+  const fallDuration = Math.max(2.5, containerHeight / 150);
+  drop.style.animationDuration = `${fallDuration / difficulties[activeDifficulty].dropSpeed}s`;
 
   // The drop's click and animation events both settle it only once.
   drop.addEventListener("click", () => {
@@ -151,12 +164,13 @@ function endGame() {
   gameContainer.classList.remove("is-running");
   gameMessage.textContent = "Round over!";
 
-  const won = score >= winningScore;
+  const won = score >= difficulties[activeDifficulty].winningScore;
   const messages = won ? winningMessages : losingMessages;
   const outcome = won ? "You win!" : "Try again!";
   gameResult.textContent = `${outcome} ${pickRandom(messages)} Final score: ${score}.`;
   startButton.disabled = false;
   startButton.textContent = "Play Again";
+  difficultySelect.disabled = false;
 
   if (won) {
     celebrateWin();
@@ -200,6 +214,11 @@ function clearConfetti() {
 
 function announce(message) {
   gameResult.textContent = message;
+}
+
+function updateInstructions() {
+  const { winningScore } = difficulties[difficultySelect.value];
+  scoreTargetDisplay.textContent = `${winningScore} points`;
 }
 
 function pickRandom(messages) {
