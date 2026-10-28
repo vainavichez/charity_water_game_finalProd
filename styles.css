@@ -257,6 +257,12 @@ button {
     line-height: 1.4;
 }
 
+.game-actions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 10px;
+}
+
 .confetti-layer {
     position: fixed;
     z-index: 10;
@@ -286,17 +292,26 @@ button {
     }
 }
 
-#start-btn {
+#start-btn,
+#reset-btn {
     flex: 0 0 auto;
     min-height: 48px;
     padding: 11px 22px;
-    border: 0;
     border-radius: 8px;
-    background: var(--brand-yellow);
     color: #183b56;
     font-weight: 800;
     cursor: pointer;
     transition: background-color 120ms ease, transform 120ms ease;
+}
+
+#start-btn {
+    border: 0;
+    background: var(--brand-yellow);
+}
+
+#reset-btn {
+    border: 2px solid rgba(24, 59, 86, 0.28);
+    background: #fff;
 }
 
 #start-btn:hover:not(:disabled) {
@@ -304,7 +319,13 @@ button {
     background: #f0b900;
 }
 
-#start-btn:focus-visible {
+#reset-btn:hover {
+    transform: translateY(-1px);
+    background: #f3f8fb;
+}
+
+#start-btn:focus-visible,
+#reset-btn:focus-visible {
     outline: 3px solid var(--brand-blue);
     outline-offset: 3px;
 }
@@ -368,7 +389,8 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    #start-btn {
+    #start-btn,
+    #reset-btn {
         transition: none;
     }
 }

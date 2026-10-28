@@ -5,6 +5,7 @@ const livesDisplay = document.getElementById("lives");
 const difficultySelect = document.getElementById("difficulty");
 const scoreTargetDisplay = document.getElementById("score-target");
 const startButton = document.getElementById("start-btn");
+const resetButton = document.getElementById("reset-btn");
 const gameMessage = document.getElementById("game-message");
 const gameResult = document.getElementById("game-result");
 
@@ -49,6 +50,7 @@ let dropMaker;
 let countdown;
 
 startButton.addEventListener("click", startGame);
+resetButton.addEventListener("click", resetGame);
 difficultySelect.addEventListener("change", updateInstructions);
 
 updateInstructions();
@@ -72,6 +74,7 @@ function startGame() {
   gameContainer.classList.add("is-running");
   startButton.disabled = true;
   startButton.textContent = "Game in progress";
+  resetButton.hidden = false;
   difficultySelect.disabled = true;
 
   createDrop();
@@ -160,6 +163,7 @@ function endGame() {
   gameRunning = false;
   clearInterval(dropMaker);
   clearInterval(countdown);
+  resetButton.hidden = true;
   gameContainer.querySelectorAll(".water-drop").forEach((drop) => drop.remove());
   gameContainer.classList.remove("is-running");
   gameMessage.textContent = "Round over!";
@@ -175,6 +179,30 @@ function endGame() {
   if (won) {
     celebrateWin();
   }
+}
+
+function resetGame() {
+  if (!gameRunning) return;
+
+  gameRunning = false;
+  clearInterval(dropMaker);
+  clearInterval(countdown);
+  clearConfetti();
+  gameContainer.querySelectorAll(".water-drop").forEach((drop) => drop.remove());
+  gameContainer.classList.remove("is-running");
+  score = 0;
+  timeLeft = gameLength;
+  lives = startingLives;
+
+  scoreDisplay.textContent = score;
+  timeDisplay.textContent = timeLeft;
+  updateLives();
+  gameResult.textContent = "";
+  gameMessage.textContent = "Press “Start Game” when you're ready!";
+  startButton.disabled = false;
+  startButton.textContent = "Start Game";
+  resetButton.hidden = true;
+  difficultySelect.disabled = false;
 }
 
 function celebrateWin() {
